@@ -1,0 +1,81 @@
+package com.jardelkuhnen.acmeap.domain;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+public class Instalacao {
+
+    //@JsonIgnore
+    @JsonBackReference
+    @OneToMany(mappedBy = "instalacao", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Fatura> listaFatura = new ArrayList<Fatura>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco")
+    private Endereco enderecoInstalacao;
+    private String codigo;
+    private Date dataInstalacao;
+
+    protected Instalacao() {
+    }
+
+    public Instalacao(String codigo, Date dataInstalacao) {
+        super();
+        this.codigo = codigo;
+        this.dataInstalacao = dataInstalacao;
+    }
+
+    public List<Fatura> getListaFatura() {
+        return listaFatura;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Endereco getEnderecoInstalacao() {
+        return enderecoInstalacao;
+    }
+
+    public void setEnderecoInstalacao(Endereco enderecoInstalacao) {
+        this.enderecoInstalacao = enderecoInstalacao;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Date getDataInstalacao() {
+        return dataInstalacao;
+    }
+
+    public void setDataInstalacao(Date dataInstalacao) {
+        this.dataInstalacao = dataInstalacao;
+    }
+}
